@@ -91,4 +91,27 @@ public class ArticleController {
         // 뷰 페이지 설정
         return "articles/edit"; // 수정할 데이터를 보여주는 페이지
     }
+
+    // 데이터 수정
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form, Long id){
+        log.info(form.toString());
+
+        // 1. DTO를 엔티디로 변환
+        Article articleEntity = form.toEntity();
+        log.info(articleEntity.toString());
+
+        // 2. 엔티디릴 DB로 저장
+        // 2-1. db에 있는 기존 데이터를 가져온ㄷ.
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null); // 데이터가 있으면 articleEntity가 연결되고 없으면 null이된다.
+
+
+        // 2.1. 기존 데이터 값 갱신
+        if(target!=null){
+            articleRepository.save(articleEntity); // 엔티티가 db로 갱신된다.
+        }
+
+        // 3. 수정 결과 페이지로 리다이렉트 한다.
+        return "redirect:/articles/" + articleEntity.getId();
+    }
 }

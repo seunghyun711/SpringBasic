@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString // toString()쓴 것과 같은 효과
 // 위 두개의 기능은 롬복을 이용한 리펙토링이다.
 public class ArticleForm {
+
+    private Long id; // 필드에 id 추가
     private String title;
     private String content;
 
@@ -26,6 +28,6 @@ public class ArticleForm {
 //    }
 
     public Article toEntity() {
-        return new Article(null, title, content);
+        return new Article(id, title, content); // 필드에 id가 추가 되었기 때문에 생성자 매개변수에 null을 id로 변경
     }
 }
