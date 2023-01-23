@@ -1,0 +1,24 @@
+{{>layouts/header}}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- controller에서 받는 데이터는 articleList기 때문에 articleList로 변경 !-->
+    <!-- articleList가 묶음인 경우 아래 id,title,content에 대한 출력이 반복된다. !-->
+    {{#articleList}}
+        <tr>
+            <th>{{id}}</th>
+            <td>{{title}}</td>
+            <td>{{content}}</td>
+        </tr>
+    {{/articleList}}
+    </tbody>
+</table>
+
+{{>layouts/footer}}
