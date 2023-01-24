@@ -45,6 +45,7 @@ public class ArticleController {
  //       System.out.println(saved.toString());
         log.info(saved.toString());
         return "redirect:/articles/" + saved.getId(); // 리다이렉트
+
     }
 
     // id로 데이터 조회
@@ -119,7 +120,7 @@ public class ArticleController {
     // 데이터 삭제
     // html에서 post,get외에 다른 메서드 제공 안함 따라서 삭제 시 임의호 get방식 사용
     @GetMapping("/articles/{id}/delete")
-    public String delete(@PathVariable Long id, RedirectAttributes rttr){ // RedirectAttribute : 삭제된 경우 해당 클래스의 addFlashAttributes()메서드를 총해 일회성으로 사용할 휘발성 데이터를 등록한다.
+    public String delete(@PathVariable Long id, RedirectAttributes rttr){ // RedirectAttribute : 삭제된 경우 해당 클래스의 addFlashAttributes()메서드를 통해 리다이렉트 된 페이지에서 일회성으로 사용할 휘발성 데이터를 등록한다.
         log.info("삭제 요청이 들어왔습니다.");
 
         // 1. 삭제 대상을 가져온디.
