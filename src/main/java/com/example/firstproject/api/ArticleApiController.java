@@ -61,8 +61,26 @@ public class ArticleApiController {
         // 4. 정상 동작(200응답)
         target.patch(article); // 대상을 붙여준다. 받아온 article에 새롭게 바뀐것에 기존에 있던 것을 붙여준다.
         // ex) id, title,content에서 요청 시 id, content만 수정하면 title은 null 값이 된다. 62번 라인은 기존 title을 그대로 쓰게 해준다.
-        Article updated = articleRepository.save(target); // 기존 데이터가 붙여진 target을 db에 저장 
+        Article updated = articleRepository.save(target); // 기존 데이터가 붙여진 target을 db에 저장
         return ResponseEntity.status(HttpStatus.OK).body(updated); // ResponseEntity에 updated를 실어서 보낸다.
+    }
+
+    // DELETE
+    // 데이터 삭제
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete(@PathVariable Long id) {
+        // 삭제할 대상 찾기
+        Article target = articleRepository.findById(id).orElse(null);
+        // 잘못된 요청 처리
+        if (target == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        // 대상 삭제
+        articleRepository.delete(target);
+
+        // 데이터 반환
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
