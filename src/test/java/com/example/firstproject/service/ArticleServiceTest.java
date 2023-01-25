@@ -121,13 +121,13 @@ class ArticleServiceTest {
         a.setTitle("안녕못해요");
         a.setContent("0101");
         ArticleForm dto = new ArticleForm(a.getId(),a.getTitle(),a.getContent());
-        Article expected = articleService.update(1L, dto);
+        Article expected = null;
 
         // when
-        Article article = new Article(1L, "안녕못해요", "0101");
+        Article article = articleService.update(5L,dto); // 존재하지 않은 id 값에 대해 update하므로 null 리턴
 
         // then
-        assertEquals(expected.toString(),article.toString());
+        assertEquals(expected,article);
     }
 
     @Test
