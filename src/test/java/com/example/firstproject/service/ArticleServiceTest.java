@@ -31,4 +31,31 @@ class ArticleServiceTest {
         // 비교
         assertEquals(expected.toString(), articles.toString());
     }
+
+    @Test
+    // ArticleService의 show()메서드 테스트
+    void show_성공() {
+        // given
+        Long id = 1L;
+        Article expected = new Article(id, "안녕하세요", "1111");
+
+        // when
+        Article article = articleService.show(id);
+
+        // then
+        assertEquals(expected.toString(),article.toString());
+    }
+
+    @Test
+    void show_실패() { // 존재하지 않는 id를 입력한 경우
+        // given
+        Long id = -1L;
+        Article expected = null;
+
+        // when
+        Article article = articleService.show(id);
+
+        // then
+        assertEquals(expected,article);
+    }
 }
