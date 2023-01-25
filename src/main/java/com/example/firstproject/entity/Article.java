@@ -34,8 +34,15 @@ public class Article {
         }
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-//    public Article(Long id, String title, String content) {
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    //    public Article(Long id, String title, String content) {
 //        this.id = id;
 //        this.title = title;
 //        this.content = content;

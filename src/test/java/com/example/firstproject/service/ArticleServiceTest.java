@@ -93,4 +93,55 @@ class ArticleServiceTest {
         assertEquals(expected,article);
 
     }
+
+    @Test
+    @Transactional
+    void update_성공() { // 존재하는 id와 title,content가 있는 dto입력
+        // given
+        Article a = new Article(1L, "안녕하세요", "1111");
+        // title, content 값 수정
+        a.setTitle("안녕못해요");
+        a.setContent("0101");
+        ArticleForm dto = new ArticleForm(a.getId(),a.getTitle(),a.getContent());
+        Article expected = articleService.update(1L, dto);
+
+        // when
+        Article article = new Article(1L, "안녕못해요", "0101");
+
+        // then
+        assertEquals(expected.toString(),article.toString());
+    }
+
+    @Test
+    @Transactional
+    void update_실패() { // 존재하지 않는 id와 title,content가 있는 dto입력
+        // given
+        Article a = new Article(1L, "안녕하세요", "1111");
+        // title, content 값 수정
+        a.setTitle("안녕못해요");
+        a.setContent("0101");
+        ArticleForm dto = new ArticleForm(a.getId(),a.getTitle(),a.getContent());
+        Article expected = articleService.update(1L, dto);
+
+        // when
+        Article article = new Article(1L, "안녕못해요", "0101");
+
+        // then
+        assertEquals(expected.toString(),article.toString());
+    }
+
+    @Test
+    void update_실패_onlyId() { // id만 있는 dto입력
+
+    }
+
+    @Test
+    void delete_성공() { // 존재하는 id 입력
+
+    }
+
+    @Test
+    void delete_실패() { // 존재하지 않는 id 입력
+
+    }
 }
