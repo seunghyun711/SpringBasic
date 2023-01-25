@@ -1,13 +1,13 @@
 package com.example.firstproject.dto;
 
 import com.example.firstproject.entity.Article;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 // form 데이터를 받아올 그릇
 @AllArgsConstructor // 이걸 쓰면 생성자 ArticleForm(String title, String content)를 쓴 것과 같은 효과
 @ToString // toString()쓴 것과 같은 효과
-// 위 두개의 기능은 롬복을 이용한 리펙토링이다.
+@Getter
+@NoArgsConstructor // 이게 없으면 ArticleContrller(api)에서 post로 api/articles/ title,content 정보를 보내면 500 에러 발생 why?
 public class ArticleForm {
 
     private Long id; // 필드에 id 추가

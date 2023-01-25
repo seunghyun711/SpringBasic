@@ -88,7 +88,7 @@ public class ArticleController {
         Article articleEntity = articleRepository.findById(id).orElse(null);
 
         // 모델에 데이터 등록
-        model.addAttribute("article",articleEntity);
+        model.addAttribute("article",articleEntity); // artilce/edit페이지에서 보여주기 위해 등록
 
         // 뷰 페이지 설정
         return "articles/edit"; // 수정할 데이터를 보여주는 페이지
@@ -100,7 +100,7 @@ public class ArticleController {
         log.info(form.toString());
 
         // 1. DTO를 엔티디로 변환
-        Article articleEntity = form.toEntity();
+        Article articleEntity = form.toEntity(); // 이거 안 하면 기존 Entity에 덮어쓰기 때문에 toEntity()사용해 새로운 Entity생성
         log.info(articleEntity.toString());
 
         // 2. 엔티디릴 DB로 저장
