@@ -1,10 +1,12 @@
 package com.example.firstproject.service;
 
+import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,5 +59,38 @@ class ArticleServiceTest {
 
         // then
         assertEquals(expected,article);
+    }
+
+    @Test
+    @Transactional // create_성공()테스트를 통해 객체가 생성되는데 이걸 롤백해준다.
+    void create_성공() { // title,content만 있는 dto입력
+        // given
+        String title = "sadlklawfkl";
+        String content = "12415125r1251";
+        ArticleForm dto = new ArticleForm(null, title, content);
+        Article expected = new Article(5L,title,content);
+
+        // when
+        Article article = articleService.create(dto);
+
+        // then
+        assertEquals(expected.toString(),article.toString());
+    }
+
+    @Test
+    @Transactional
+    void create_실패(){ // id가 포함된 dto가 입력된 경우
+        // given
+        String title = "wqreafs";
+        String content = "weqlk21";
+        ArticleForm dto = new ArticleForm(5L, title, content);
+        Article expected = null;
+
+        // when
+        Article article = articleService.create(dto);
+
+        // then
+        assertEquals(expected,article);
+
     }
 }
