@@ -3,6 +3,7 @@ package com.example.firstproject.api;
 import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,28 +15,30 @@ import java.util.List;
 
 @RestController // RestAPI용 컨트롤러 데이터(JSON형식) 반환
 public class ArticleApiController {
-    @Autowired // ArticleRepository를 가져온다.
-    private ArticleRepository articleRepository;
+    @Autowired // DI, 생성 객체를 가져와서 연결
+    private ArticleService articleService; // 컨트롤러와 리포지토리 사이의 처리는 ArticeService가 하게하여 컨트롤러는 컨트롤러의 기능만 하도록 구현한다.
     // GET
     // 전체 데이터 조회
     @GetMapping("/api/articles")
     public List<Article> index(){
-        return articleRepository.findAll();
+        return articleService.index();
     }
 
     // 특정 데이터 가져오기(id로)
     @GetMapping("/api/articles/{id}")
-    public Article index(@PathVariable Long id){ //url 요청을 통해 id값 가져올 떄 pathvaraible사용
-        return articleRepository.findById(id).orElse(null);
+    public Article show(@PathVariable Long id){ //url 요청을 통해 id값 가져올 떄 pathvaraible사용
+        return articleService.show(id);
     }
 
     // POST
     @PostMapping("/api/articles")
-    public Article create(@RequestBody ArticleForm dto){ //url 요청을 통해 id값 가져올 떄 pathvaraible사용
+    public ResponseEntity<Article> create(@RequestBody ArticleForm dto){ //url 요청을 통해 id값 가져올 떄 pathvaraible사용
         // 이대로 하면 title이랑 content가 null값이다. RestAPI에서 JSON으로 데이터 전달 시 데이터가 받아지지 음
         // 따라서 @RequestBody를 이용해 Json데이터를 받아오게 한다.
-        Article article = dto.toEntity();
-        return articleRepository.save(article);
+        Article created = articleService.create(dto);
+        return (created != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(created) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // PATCH
@@ -43,44 +46,29 @@ public class ArticleApiController {
     @PatchMapping("/api/articles/{id}")
     // ResponseEntity로 Article을 담아서 보낸다. -> 상태코드를 같이 실어서 보낼 수 있다.
     public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm dto) {
-        // 1.수정용 Entity 생성
-        Article article = dto.toEntity();
-        log.info("id : {}, article : {}",id,article.toString());
-
-        // 2. 대상 Entity 조회
-        Article target = articleRepository.findById(id).orElse(null);
-
-        // 3. 잘못된 요청 처리(대상이 없거나 id가 다른 경우)
-        if (target == null || id != article.getId()) {
-            // 잘못된 요청 응답
-            log.info("잘못된 요청이다.id : {}, article : {}",id, article.toString());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // 400번대 오류
-
-        }
-
-        // 4. 정상 동작(200응답)
-        target.patch(article); // 대상을 붙여준다. 받아온 article에 새롭게 바뀐것에 기존에 있던 것을 붙여준다.
-        // ex) id, title,content에서 요청 시 id, content만 수정하면 title은 null 값이 된다. 62번 라인은 기존 title을 그대로 쓰게 해준다.
-        Article updated = articleRepository.save(target); // 기존 데이터가 붙여진 target을 db에 저장
-        return ResponseEntity.status(HttpStatus.OK).body(updated); // ResponseEntity에 updated를 실어서 보낸다.
+        Article updated = articleService.update(id, dto); // service에 update요청
+        return (updated != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(updated):// ResponseEntity에 updated를 실어서 보낸다.
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // DELETE
     // 데이터 삭제
     @DeleteMapping("/api/articles/{id}")
     public ResponseEntity<Article> delete(@PathVariable Long id) {
-        // 삭제할 대상 찾기
-        Article target = articleRepository.findById(id).orElse(null);
-        // 잘못된 요청 처리
-        if (target == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-
-        // 대상 삭제
-        articleRepository.delete(target);
+        Article deleted = articleService.delete(id);
 
         // 데이터 반환
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return (deleted != null) ? ResponseEntity.status(HttpStatus.OK).build():
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    // 트랜잭션 : 반드시 성공해야하는 일련의 과정 실패시 롤백함
+    @PostMapping("/api/transaction-test")
+    public ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos) {
+        List<Article> createdList = articleService.createArticles(dtos);
+        return (createdList!=null) ? ResponseEntity.status(HttpStatus.OK).body(createdList) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 }
