@@ -24,6 +24,16 @@ public class Article {
     @Column
     private String content;
 
+    public void patch(Article article) {
+        // 있는 경우에만 갱신
+        if (article.title != null) {
+            this.title = article.title;
+        }
+        if (article.content != null) {
+            this.content = article.content;
+        }
+    }
+
 
 //    public Article(Long id, String title, String content) {
 //        this.id = id;
