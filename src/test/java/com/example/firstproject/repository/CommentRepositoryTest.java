@@ -53,9 +53,48 @@ class CommentRepositoryTest {
             // 검증 (예상 값과 일치하는지 검증)
             assertEquals(expected.toString(), comments.toString(),"1번 게시글은 댓글이 없음");
         }
+
+        /* CASE 3 : 9번 게시글의 모든 댓글 조회 */
+        {}
+
+        /* CASE 4 : 9999번 게시글의 모든 댓글 조회 */
+        {}
+
+        /* CASE 5 : -1번 게시글의 모든 댓글 조회 */
+        {}
     }
 
     @Test
+    @DisplayName("특정 닉네임의 모든 댓글 조회")
     void findByNickname() {
+        /* CASE 1 : hong의 모든 댓글 조회 */
+        {
+            // 입력 데이터 준비
+            String nickname = "hong";
+
+            // 실제 수행
+            List<Comment> comments = commentRepository.findByNickname(nickname);
+
+            // 결과 예상
+            Comment a = new Comment(1L, new Article(5L, "인생 영화?", "댓글 ㄱ"), nickname, "토이스토리1");
+            Comment b = new Comment(4L, new Article(6L, "너의 취미?", "대앳글 ㄱ"), nickname, "숨쉬기");
+            Comment c = new Comment(7L, new Article(7L, "니가 좋아하는 음식?", "대앳그을 ㄱ"), nickname, "육회");
+            List<Comment> expected = Arrays.asList(a, b, c);
+
+            // 검증
+            assertEquals(expected.toString(), comments.toString(), "hong의 모든 댓긓 출력");
+        }
+
+        /* CASE 2 : kim의 모든 댓글 조회 */
+        {}
+
+        /* CASE 3 : null의 모든 댓글 조회 */
+        {}
+
+        /* CASE 4 : 공백의 모든 댓글 조회 */
+        {}
+
+        /* CASE 5 : i의 모든 댓글 조회 */
+        {}
     }
 }
