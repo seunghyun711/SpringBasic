@@ -103,10 +103,10 @@ class ArticleServiceTest {
         a.setTitle("안녕못해요");
         a.setContent("0101");
         ArticleForm dto = new ArticleForm(a.getId(),a.getTitle(),a.getContent());
-        Article expected = articleService.update(1L, dto);
+        Article expected = new Article(1L, "안녕못해요", "0101");
 
         // when
-        Article article = new Article(1L, "안녕못해요", "0101");
+        Article article = articleService.update(1L, dto);
 
         // then
         assertEquals(expected.toString(),article.toString());
@@ -132,11 +132,32 @@ class ArticleServiceTest {
 
     @Test
     void update_실패_onlyId() { // id만 있는 dto입력
+        // 테스트 실패
+        // given
+        Article a = new Article(1L, "안녕하세요", "1111");
+        // title, content 값 수정
+        ArticleForm dto = new ArticleForm(a.getId(),null,null);
+        Article expected = null;
+
+        // when
+        Article article = articleService.update(1L,dto); // 존재하지 않은 id 값에 대해 update하므로 null 리턴
+
+        // then
+        assertEquals(expected,article);
 
     }
 
     @Test
     void delete_성공() { // 존재하는 id 입력
+        // given
+        Article a = new Article(1L, "안녕하세요", "1111");
+        Article expected = a;
+
+        // when
+        Article article = articleService.delete(a.getId());
+
+        // then
+        assertEquals(expected.toString(), article.toString()); // delete의 결과는 삭제된 Article
 
     }
 
