@@ -132,15 +132,16 @@ class ArticleServiceTest {
 
     @Test
     void update_실패_onlyId() { // id만 있는 dto입력
-        // 테스트 실패
+        // 테스트 실패 -> ArticleService클래스의 update()메서드를 id만 있는 경우 null을 리턴하게 하여 update를 실패하게 수정하였다.
         // given
         Article a = new Article(1L, "안녕하세요", "1111");
         // title, content 값 수정
-        ArticleForm dto = new ArticleForm(a.getId(),null,null);
+        ArticleForm dto = new ArticleForm(a.getId(),null,null); // title, content 모두 null
         Article expected = null;
 
         // when
-        Article article = articleService.update(1L,dto); // 존재하지 않은 id 값에 대해 update하므로 null 리턴
+        Article article = articleService.update(a.getId(), dto); // 존재하지 않은 id 값에 대해 update하므로 null 리턴
+
 
         // then
         assertEquals(expected,article);

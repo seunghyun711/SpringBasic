@@ -51,6 +51,11 @@ public class ArticleService {
             return null; // 잘못되면 null 리턴
         }
 
+        // 수정 시 title, content 모두 변경되지 않은 경우(둘다 null인 경우) null 리턴한다.
+        if(article.getTitle() == null && article.getContent() == null){
+            return null;
+        }
+
         // 4. 업데이트
         target.patch(article);
         Article updated = articleRepository.save(target);
