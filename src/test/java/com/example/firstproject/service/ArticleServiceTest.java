@@ -163,6 +163,15 @@ class ArticleServiceTest {
 
     @Test
     void delete_실패() { // 존재하지 않는 id 입력
+        // given
+        Article a = new Article(1L, "안녕하세요", "1111");
+        Article expected = null;
+
+        // when
+        Article article = articleService.delete(8L); // 존재하지 않는 id 입력
+
+        // then
+        assertEquals(expected, article); // delete의 결과는 삭제된 Article
 
     }
 }
