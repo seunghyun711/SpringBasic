@@ -86,10 +86,40 @@ class CommentRepositoryTest {
         }
 
         /* CASE 2 : kim의 모든 댓글 조회 */
-        {}
+        {
+            // 입력 데이터 준비
+            String nickname = "kim";
+
+            // 실제 수행
+            List<Comment> comments = commentRepository.findByNickname(nickname);
+
+            // 결과 예상
+            Comment a = new Comment(2L, new Article(5L, "인생 영화?", "댓글 ㄱ"), nickname, "토이스토리2");
+            Comment b = new Comment(5L, new Article(6L, "너의 취미?", "대앳글 ㄱ"), nickname, "숨참기");
+            Comment c = new Comment(8L, new Article(7L, "니가 좋아하는 음식?", "대앳그을 ㄱ"), nickname, "육회비빔밥");
+            List<Comment> expected = Arrays.asList(a, b, c);
+
+            // 검증
+            assertEquals(expected.toString(), comments.toString(), "hong의 모든 댓긓 출력");
+        }
 
         /* CASE 3 : null의 모든 댓글 조회 */
-        {}
+        {
+            // 입력 데이터 준비
+            String nickname = "null";
+
+            // 실제 수행
+            List<Comment> comments = commentRepository.findByNickname(nickname);
+
+            // 결과 예상
+            Comment a = new Comment(null, new Article(5L, "인생 영화?", "댓글 ㄱ"), nickname, null);
+            Comment b = new Comment(null, new Article(6L, "너의 취미?", "대앳글 ㄱ"), nickname, null);
+            Comment c = new Comment(null, new Article(7L, "니가 좋아하는 음식?", "대앳그을 ㄱ"), nickname, null);
+            List<Comment> expected = Arrays.asList(); // 빈 리스트 예상
+
+            // 검증
+            assertEquals(expected.toString(), comments.toString(), "hong의 모든 댓긓 출력");
+        }
 
         /* CASE 4 : 공백의 모든 댓글 조회 */
         {}
