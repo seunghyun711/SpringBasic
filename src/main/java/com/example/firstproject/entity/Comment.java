@@ -46,4 +46,20 @@ public class Comment {
                 dto.getBody()
         );
     }
+
+    public void patch(CommentDto dto) {
+        // 예외 발생
+        if (this.id != dto.getId()) { // url에서 던전 id와 Json으로 던진 id가 다른경우 예외 발생
+            throw new IllegalArgumentException("댓글 수정 실패, 잘못된 id가 입력됨");
+        }
+
+        // 객체를 갱신
+        if(dto.getNickname() != null){
+            this.nickname = dto.getNickname();
+        }
+
+        if(dto.getBody() != null){
+            this.body = dto.getBody();
+        }
+    }
 }
