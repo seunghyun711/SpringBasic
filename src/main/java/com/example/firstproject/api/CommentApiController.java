@@ -6,9 +6,7 @@ import com.example.firstproject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,15 @@ public class CommentApiController {
     }
 
     // 댓글 생성
+    @PostMapping("/api/articles/{articleId}/comments")
+    public ResponseEntity<CommentDto> create(@PathVariable Long articleId, @RequestBody CommentDto dto) { // @RequestBody는 Json데이터를 받아오게 한다.
+        // 서비스에게 위임하여 값을 가져온다.
+        CommentDto createDto = commentService.create(articleId,dto);
+
+        // 가져온 결과를 가지고 결과 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(createDto);
+
+    }
 
     // 댓글 수정
 
