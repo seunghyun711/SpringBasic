@@ -55,7 +55,19 @@ class CommentRepositoryTest {
         }
 
         /* CASE 3 : 9번 게시글의 모든 댓글 조회 */
-        {}
+        {
+            Long articleId = 9L;
+
+            // 실제 수행 과정
+            List<Comment> comments = commentRepository.findByArticleId(articleId);
+
+            // 예상하기
+            Article article = new Article(1L, "안녕하세요", "1111");
+            List<Comment> expected = Arrays.asList();
+
+            // 검증 (예상 값과 일치하는지 검증)
+            assertEquals(expected.toString(), comments.toString(),"9번 게시글은 댓글이 없음");
+        }
 
         /* CASE 4 : 9999번 게시글의 모든 댓글 조회 */
         {}
