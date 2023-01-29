@@ -134,7 +134,20 @@ class CommentRepositoryTest {
         }
 
         /* CASE 4 : 공백의 모든 댓글 조회 */
-        {}
+        { // 입력 데이터 준비
+            String nickname = " ";
+
+            // 실제 수행
+            List<Comment> comments = commentRepository.findByNickname(nickname);
+
+            // 결과 예상
+            Comment a = new Comment(null, new Article(5L, "인생 영화?", "댓글 ㄱ"), nickname, null);
+            Comment b = new Comment(null, new Article(6L, "너의 취미?", "대앳글 ㄱ"), nickname, null);
+            Comment c = new Comment(null, new Article(7L, "니가 좋아하는 음식?", "대앳그을 ㄱ"), nickname, null);
+            List<Comment> expected = Arrays.asList(); // 빈 리스트 예상
+
+            // 검증
+            assertEquals(expected.toString(), comments.toString(), "hong의 모든 댓긓 출력");}
 
         /* CASE 5 : i의 모든 댓글 조회 */
         {}
