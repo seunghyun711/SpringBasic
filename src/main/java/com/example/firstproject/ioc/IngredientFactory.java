@@ -1,5 +1,8 @@
 package com.example.firstproject.ioc;
 
+import org.springframework.stereotype.Component;
+
+@Component // 해당 클래스를 객체로 만들어 IoC컨테이너에 등록하는 애너테이션
 public class IngredientFactory {
 
     public Ingredient get(String menu) {

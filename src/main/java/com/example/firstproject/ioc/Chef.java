@@ -1,5 +1,8 @@
 package com.example.firstproject.ioc;
 
+import org.springframework.stereotype.Component;
+
+@Component // 해당 클래스를 객체로 만들어 Ioc컨테이너에 등록
 public class Chef {
     // 셰프는 식재료 공장을 알고있음
     private IngredientFactory ingredientFactory;
