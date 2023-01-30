@@ -42,4 +42,22 @@ class ChefTest {
         System.out.println(food);
     }
 
+    @Test
+    void 신호등치킨_요리하기(){
+        // 준비
+        IngredientFactory ingredientFactory = new IngredientFactory();
+        Chef chef = new Chef(ingredientFactory);
+        String menu = "신호등 치킨";
+
+        // 수행
+        String food = chef.cook(menu);
+
+        // 예상
+        String expected = "국내산 10호 닭으로 만든 신호등 치킨";
+
+        // 검증
+        assertEquals(expected, food);
+        System.out.println(food);
+    }
+
 }
