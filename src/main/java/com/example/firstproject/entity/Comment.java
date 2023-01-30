@@ -38,7 +38,7 @@ public class Comment {
             throw new IllegalArgumentException("댓글 생성 실패, 대상 게시글이 없다.");
         }
 
-        // 엔티티 생성 및 반환
+        // 엔티티 생성 및 반환 -> 엔티티 역할이라서 CommentApiController에서는 dto == Entity로 사용되었음
         return new Comment(
                 dto.getId(),
                 article,
