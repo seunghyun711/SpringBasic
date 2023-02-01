@@ -1,6 +1,7 @@
 package com.example.firstproject.objectmapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,9 @@ class BurgerTest {
 
         // 검증
         assertEquals(expected, json);
-        System.out.println(json);
+        // JsonNode를 사용하면 JSON값을 더 보기 쉽게 출력한다.
+        JsonNode jsonNode = objectMapper.readTree(json);
+        System.out.println(jsonNode.toPrettyString());
     }
 
 }
