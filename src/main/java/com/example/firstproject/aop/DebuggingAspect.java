@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 @Component // IoC 컨테이너가 해당 객체를 생성 및 관리한다.
 @Slf4j
 public class DebuggingAspect {
-    // 어느 대상을 타겟으로 하여 부가기능을 주입할 것인지 정하는 애너테이션=> 대상 메서드 선택 : CommentService#create()
-    @Pointcut("execution(* com.example.firstproject.service.CommentService.*(..))") // *은 CommentService의 모든 메서드에 적용하게 한다.
+    // 어느 대상을 타겟으로 하여 부가기능을 주입할 것인지 정하는 애너테이션=> api 패키지 내 모든 메서드
+    // DTO가 ObjectMapper를 통해 Json으로 변환된다.
+    @Pointcut("execution(* com.example.firstproject.api.*.*(..))") // *은 CommentService의 모든 메서드에 적용하게 한다.
     private void cut(){}
 
     // 실행 시점 선택하는 애너테이션 before
