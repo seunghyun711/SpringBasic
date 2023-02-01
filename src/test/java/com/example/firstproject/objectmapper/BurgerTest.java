@@ -3,6 +3,8 @@ package com.example.firstproject.objectmapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -35,7 +37,25 @@ class BurgerTest {
     public void JSON을_자바_객체로_변환() throws JsonProcessingException{
         // 준비
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = "{\"name\":\"콰트로 치즈 와퍼\",\"price\":7000,\"ingredients\":[\"치즈\",\"패티\",\"양파\"]}";
+        /*
+        {
+            "name" : "코트로 치즈 와퍼"  => 이 형식으로 나오게 만든다.
+            "price : 7000
+            "ingredients" : ["치즈", "패티", "양파"]
+         }
+         */
+        // JsonNode를 만든다.
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        objectNode.put("name", "콰트로 치즈 와퍼");
+        objectNode.put("price", 7000);
+
+        ArrayNode arrayNode = objectMapper.createArrayNode();// JSON 배열을 만든다.
+        arrayNode.add("치즈");
+        arrayNode.add("패티");
+        arrayNode.add("양파");
+
+        objectNode.set("ingredients", arrayNode);
+        String json = objectNode.toString();
 
         // 수행
         // readValue를 통해 burger를 만들때 디폴트 생성자가 호출되므로 Burger클래스에 @NoArgsContructor를 추가해 디폴트 생성자를 추가한다.
